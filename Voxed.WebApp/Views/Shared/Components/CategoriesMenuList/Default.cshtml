@@ -1,0 +1,425 @@
+﻿@model IEnumerable<Core.Entities.Category>
+
+@*<div class="navbarCategories pointer">
+    <div class="categorySelected" data-event="click,button,NAVBAR_CATEGORIES" data-toggle="categoryListNavbar">
+        <i class="fas fa-dice-d6"></i>
+        <img class="categoryLogo" src="https://content.voxed.net/not.jpg" alt="">
+        <div class="navCategoryTitle">Categorias</div>
+    </div>
+    <div class="categoryListNavbar hide" id="categoryListNavbar">
+        <div class="titleNav">Categorias</div>
+        <div class="categories">
+            @foreach (var category in Model)
+            {
+                <a href="/@category.ShortName" class="categoryIndividual">
+                    <div class="categoryAvatar">
+                        <img class="lazyload" data-src="@category.Media.ThumbnailUrl" alt="">
+                        <img class="lazyload" data-src="@($"https://content.voxed.net/{category.ShortName}.jpg")" alt="">
+                        <img src="@($"https://content.voxed.net/{category.ShortName}.jpg")" alt="">
+                    </div>
+                    <div class="categoryTitleNav">@category.Name</div>
+                </a>
+            }
+        </div>
+    </div>
+</div>*@
+
+<div class="navbarCategories pointer">
+    <div class="categorySelected" data-event="click,button,NAVBAR_CATEGORIES" data-toggle="categoryListNavbar">
+        <i class="fas fa-dice-d6"></i>
+        <div class="navCategoryTitle">Categorias</div>
+    </div>
+    <div class="categoryListNavbar hide" id="categoryListNavbar">
+        <div class="titleNav">Categorias</div>
+        <div class="categories">
+            <a href="/anm" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/anm.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Anime</div>
+            </a>
+            <a href="/art" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/art.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Arte</div>
+            </a>
+            <a href="/aut" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/aut.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Autos y Motos</div>
+            </a>
+            <a href="/cnc" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/cnc.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Ciencia</div>
+            </a>
+            <a href="/cin" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/cin.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Cine</div>
+            </a>
+            <a href="/con" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/_con.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Consejos</div>
+            </a>
+            <a href="/dpt" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/dpt.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Deportes</div>
+            </a>
+            <a href="/dwl" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/dwl.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Download</div>
+            </a>
+            <a href="/eco" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/eco.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Economia</div>
+            </a>
+            <a href="/gtb" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/gtb.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">GTB</div>
+            </a>
+            <a href="/gas" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/gas.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Gastronomia</div>
+            </a>
+            <a href="/off" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/off.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">General</div>
+            </a>
+            <a href="/his" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/his.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Historias</div>
+            </a>
+            <a href="/hum" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/hum.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Humanidad</div>
+            </a>
+            <a href="/hmr" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/hmr.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Humor</div>
+            </a>
+            <a href="/gmr" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/gmr.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Juegos</div>
+            </a>
+            <a href="/lit" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/lit.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Literatura</div>
+            </a>
+            <a href="/lgr" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/lgr.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Lugares</div>
+            </a>
+            <a href="/mus" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/mus.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Musica</div>
+            </a>
+            <a href="/not" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/not.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Noticias</div>
+            </a>
+            <a href="/par" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/par.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Paranormal</div>
+            </a>
+            <a href="/pol" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/pol.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Politica</div>
+            </a>
+            <a href="/xxx" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/xxx.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Porno</div>
+            </a>
+            <a href="/prg" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/prg.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Preguntas</div>
+            </a>
+            <a href="/pro" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/pro.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Programacion</div>
+            </a>
+            <a href="/uff" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/uff.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Random</div>
+            </a>
+            <a href="/sld" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/sld.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Salud</div>
+            </a>
+            <a href="/hot" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/hot.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Sexy</div>
+            </a>
+            <a href="/tec" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/tec.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Tecnologia</div>
+            </a>
+            <a href="/vid" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/vid.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Videos (webm)</div>
+            </a>
+            <a href="/ytb" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img src="/img/categories/ytb.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Youtubers</div>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+@*<div class="navbarCategories pointer">
+    <div class="categorySelected" data-event="click,button,NAVBAR_CATEGORIES" data-toggle="categoryListNavbar">
+        <i class="fas fa-dice-d6"></i>
+        <div class="navCategoryTitle">Categorias</div>
+    </div>
+    <div class="categoryListNavbar hide" id="categoryListNavbar">
+        <div class="titleNav">Categorias</div>
+        <div class="categories">
+            <a href="/Category/Details/1" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/anm.jpg" alt="" src="https://content.voxed.net/anm.jpg">
+                </div>
+                <div class="categoryTitleNav">Anime</div>
+            </a>
+            <a href="/Category/Details/29" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/art.jpg" alt="" src="https://content.voxed.net/art.jpg">
+                </div>
+                <div class="categoryTitleNav">Arte</div>
+            </a>
+            <a href="/Category/Details/28" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/aut.jpg" alt="" src="https://content.voxed.net/aut.jpg">
+                </div>
+                <div class="categoryTitleNav">Autos y Motos</div>
+            </a>
+            <a href="/Category/Details/27" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/cnc.jpg" alt="" src="https://content.voxed.net/cnc.jpg">
+                </div>
+                <div class="categoryTitleNav">Ciencia</div>
+            </a>
+            <a href="/Category/Details/26" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/cin.jpg" alt="" src="https://content.voxed.net/cin.jpg">
+                </div>
+                <div class="categoryTitleNav">Cine</div>
+            </a>
+            <a href="/Category/Details/25" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/con.jpg" alt="" src="https://content.voxed.net/con.jpg">
+                </div>
+                <div class="categoryTitleNav">Consejos</div>
+            </a>
+            <a href="/Category/Details/24" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/dpt.jpg" alt="" src="https://content.voxed.net/dpt.jpg">
+                </div>
+                <div class="categoryTitleNav">Deportes</div>
+            </a>
+            <a href="/Category/Details/23" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/dwl.jpg" alt="" src="https://content.voxed.net/dwl.jpg">
+                </div>
+                <div class="categoryTitleNav">Download</div>
+            </a>
+            <a href="/Category/Details/22" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/eco.jpg" alt="" src="https://content.voxed.net/eco.jpg">
+                </div>
+                <div class="categoryTitleNav">Economia</div>
+            </a>
+            <a href="/Category/Details/3" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/gtb.jpg" alt="" src="https://content.voxed.net/gtb.jpg">
+                </div>
+                <div class="categoryTitleNav">GTB</div>
+            </a>
+            <a href="/Category/Details/21" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/gas.jpg" alt="" src="https://content.voxed.net/gas.jpg">
+                </div>
+                <div class="categoryTitleNav">Gastronomia</div>
+            </a>
+            <a href="/Category/Details/20" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/off.jpg" alt="" src="https://content.voxed.net/off.jpg">
+                </div>
+                <div class="categoryTitleNav">General</div>
+            </a>
+            <a href="/Category/Details/19" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/his.jpg" alt="" src="https://content.voxed.net/his.jpg">
+                </div>
+                <div class="categoryTitleNav">Historias</div>
+            </a>
+            <a href="/Category/Details/18" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/hum.jpg" alt="" src="https://content.voxed.net/hum.jpg">
+                </div>
+                <div class="categoryTitleNav">Humanidad</div>
+            </a>
+            <a href="/Category/Details/17" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/hmr.jpg" alt="" src="https://content.voxed.net/hmr.jpg">
+                </div>
+                <div class="categoryTitleNav">Humor</div>
+            </a>
+            <a href="/Category/Details/30" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/gmr.jpg" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+                </div>
+                <div class="categoryTitleNav">Juegos</div>
+            </a>
+            <a href="/Category/Details/16" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/lit.jpg" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+                </div>
+                <div class="categoryTitleNav">Literatura</div>
+            </a>
+            <a href="/Category/Details/14" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/lgr.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Lugares</div>
+            </a>
+            <a href="/Category/Details/13" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/mus.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Musica</div>
+            </a>
+            <a href="/Category/Details/12" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/not.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Noticias</div>
+            </a>
+            <a href="/Category/Details/11" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/par.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Paranormal</div>
+            </a>
+            <a href="/Category/Details/10" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/pol.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Politica</div>
+            </a>
+            <a href="/Category/Details/2" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/xxx.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Porno</div>
+            </a>
+            <a href="/Category/Details/9" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/prg.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Preguntas</div>
+            </a>
+            <a href="/Category/Details/8" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/pro.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Programacion</div>
+            </a>
+            <a href="/Category/Details/15" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/uff.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Random</div>
+            </a>
+            <a href="/Category/Details/7" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/sld.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Salud</div>
+            </a>
+            <a href="/Category/Details/31" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/hot.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Sexy</div>
+            </a>
+            <a href="/Category/Details/6" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/tec.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Tecnologia</div>
+            </a>
+            <a href="/Category/Details/5" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/vid.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Videos (webm)</div>
+            </a>
+            <a href="/Category/Details/4" class="categoryIndividual">
+                <div class="categoryAvatar">
+                    <img class="lazyload" data-src="https://content.voxed.net/ytb.jpg" alt="">
+                </div>
+                <div class="categoryTitleNav">Youtubers</div>
+            </a>
+        </div>
+    </div>
+</div>*@
+
+
+

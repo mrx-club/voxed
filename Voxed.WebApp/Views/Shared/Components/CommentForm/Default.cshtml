@@ -1,0 +1,87 @@
+﻿@model Voxed.WebApp.Models.CreateCommentFormViewModel
+
+    <!--<form class="commentBox" asp-controller="Comment" asp-action="Create" enctype="multipart/form-data">
+        <div class="pollOption voted hide" id="commentPoll">
+            <div class="pollOptionText"></div>
+            <div class="pollOptionPercent" id="cancelVoteComment">X</div>
+        </div>
+
+        <textarea asp-for="Content" class="commentTextarea" id="commentTextarea" maxlength="3000"
+                  placeholder="Escribe un comentario..."></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+
+
+        <div class="form-group">
+            <input id="VoxID" name="VoxID" type="hidden" class="form-control" value="@Model.VoxID" />
+        </div>
+        <div class="form-group">
+            <input id="UserID" name="UserID" type="hidden" class="form-control" value="@Model.UserID" />
+        </div>
+        <div class="commentBoxButtons">
+            <div class="attachs" id="commentAttachs">
+                <div class="attachButton tooltip-bottom"
+                     data-upload="{ &quot;type&quot;: &quot;local&quot;, &quot;container&quot;: &quot;commentAttachs&quot; }"
+                     data-tooltip="Subir archivo">
+                    <i class="fas fa-upload"></i>
+                </div>
+
+                <input name="file" type="file"
+                       accept="image/*"
+                       class="hiddeFileInput" data-preview="previewInputComment">-->
+
+                @*UPLOAD FROM LINK
+                <div class="attachButton tooltip-bottom" data-tooltip="Subir via link"
+                     data-upload="{ &quot;type&quot;: &quot;link&quot;, &quot;container&quot;: &quot;commentAttachs&quot;, &quot;preview&quot; : &quot;previewInputComment&quot; }">
+                    <i class="fas fa-link"></i>
+                </div>*@
+
+                <!--<div class="preview" id="previewInputComment">
+                    <div class="closePreview" data-closepreview="previewInputComment">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <img src="https://content.voxed.net/home/version4.png" alt="">
+                </div>
+            </div>
+            <button type="submit" class="buttonPress newComment" id="newComment">
+                <i class="fas fa-circle-notch fa-spin"></i>
+                <span>Comentar</span>
+            </button>
+        </div>
+    </form>-->
+
+
+    <form class="commentBox" id="createComment" enctype="multipart/form-data">
+        <div class="pollOption voted hide" id="commentPoll">
+            <div class="pollOptionText"></div>
+            <div class="pollOptionPercent" id="cancelVoteComment">X</div>
+        </div>
+        <textarea name="content" class="commentTextarea" id="commentTextarea" maxlength="3000"
+                  placeholder="Escribe un comentario..."></textarea>
+        <div class="commentBoxButtons">
+            <div class="attachs" id="commentAttachs">
+                <div class="attachButton tooltip-bottom"
+                     data-upload="{ &quot;type&quot;: &quot;local&quot;, &quot;container&quot;: &quot;commentAttachs&quot; }"
+                     data-tooltip="Subir archivo">
+                    <i class="fas fa-upload"></i>
+                </div>
+                <input name="file" type="file"
+                       @*accept="image/gif, image/jpeg, image/jpg, image/png, video/webm, video/mp4"*@
+                       accept="image/*"
+                       class="hiddeFileInput" data-preview="previewInputComment">
+                <div class="attachButton tooltip-bottom" data-tooltip="Subir via link"
+                     data-upload="{ &quot;type&quot;: &quot;link&quot;, &quot;container&quot;: &quot;commentAttachs&quot;, &quot;preview&quot; : &quot;previewInputComment&quot; }">
+                    <i class="fas fa-link"></i>
+                </div>
+                <div class="preview" id="previewInputComment">
+                    <div class="closePreview" data-closepreview="previewInputComment">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <img src="/img/home/version4.png" alt="">
+                </div>
+            </div>
+            <button type="submit" class="buttonPress newComment" id="newComment">
+                <i class="fas fa-circle-notch fa-spin"></i>
+                <span>Comentar</span>
+            </button>
+        </div>
+    </form>

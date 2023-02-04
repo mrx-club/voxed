@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Core.Entities.Category>
+
+
+<div class="modalBox niches" id="niches">
+    <div class="modalHeader">
+        <div class="modalTitle">Categorias</div>
+        <div class="closeModal">Cerrar</div>
+    </div>
+    <div class="detail">Haz click en las categorias para mostrarlas u ocultarlas de la pagina principal.</div>
+    <ul class="nicheList">
+        @foreach (var item in Model)
+        {
+            <li id="category-@item.Id" style="background: url(/)"
+            data-background="url('@item.Media.ThumbnailUrl');">
+                <div class="nicheData">
+                    <div class="nicheTitle">@item.Name</div>
+                    <div class="nicheSlug">/@item.ShortName/</div>
+                </div>
+                <div class="nicheAction">
+                    <div class="followNiche">Seguir</div>
+                </div>
+            </li>
+        }
+
+    </ul>
+</div>

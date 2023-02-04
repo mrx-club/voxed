@@ -1,0 +1,36 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<Core.Entities.User> SignInManager
+@inject UserManager<Core.Entities.User> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="menuIcon tooltip-bottom mobile" data-tooltip="Notificaciones" data-toggle="notificationsList">
+        <i class="fas fa-bell"></i>
+        <i class="menuIconCount hide" id="notificationsCount">0</i>
+    </li>
+
+    <li class="menuIcon tooltip-bottom mobile" data-toggle="profileData"> 
+        <i class="fas fa-user"></i>
+    </li>
+
+    //NUEVO
+    <div class="menuModal notifications hide" id="profileData">
+        <ul class="slideMenuOptions">
+            @*<li class=""><b>Usuario: </b><span class="name author">@User.Identity.Name</span> </li>*@
+            <li class="optionsTitle">Usuario</li>
+            <li>
+                <div class="optionIcon"><i class="fas fa-user" aria-hidden="true"></i></div>
+                <div class="optionText"><span class="name author">@User.Identity.Name</span> </div>
+            </li>
+            <li class="optionsTitle"><a href="/account/logout">Cerrar Sesion</a></li>
+        </ul>
+    </div>
+}
+else
+{
+    <li class="menuIcon tooltip-bottom mobile" data-event="click,button,NAVBAR_LOGIN" data-function="registerModal" data-tooltip="Membresia">
+        <i class="fas fa-user"></i>
+    </li>
+}
+

@@ -1,0 +1,45 @@
+﻿@using Voxed.WebApp.ViewModels
+
+@model BoardViewModel
+
+@{
+    ViewData["Title"] = @Model.Title;
+}
+
+@*<div class="modHome"></div>*@
+
+<main>
+    <div class="loadNewVox disabled unselect" data-voxs="0" id="voxLoadMore"></div>
+    <div class="voxList" id="voxList">
+
+        @if (Model.Page == "home")
+        {
+            <a href="/info" class="vox newInVoxed"
+                style="background: url(img/home/version4.png);">
+                <div class="voxHeader">
+                    <div class="tagList">
+                        <div class="tag sticky">Info y Reglas</div>
+                    </div>
+                </div>
+                <h4 class="title textShadon">¿Nuevo en Voxed?</h4>
+                <div class="over"></div>
+            </a>
+        }
+
+        @await Component.InvokeAsync("VoxDetails", Model.Voxs)
+
+    </div>
+    <div class="loadingSpinner hide" id="homeLoadingSpinner"><i class="fas fa-spinner fa-spin"></i></div>
+</main>
+<script>
+    var ACTUAL_PAGE = "@Model.Page";
+    var TITLE = "Voxed";
+</script>
+
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
+

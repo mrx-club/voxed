@@ -1,0 +1,525 @@
+﻿@model Voxed.WebApp.ViewModels.VoxDetailViewModel
+
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore.Infrastructure
+@using Voxed.WebApp.Extensions
+@using Voxed.WebApp.Services
+@using Voxed.WebApp.ViewModels
+
+@inject SignInManager<Core.Entities.User> SignInManager
+@inject UserManager<Core.Entities.User> UserManager
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<main>
+    <div class="voxWraper">
+        <section class="voxData">
+            <div class="voxBar">
+                <div class="voxCategoryBar">
+                    <a href="/@Model.CategoryShortName">
+                        <div class="voxCategory">
+                            <div class="categoryAvatar">
+                                <img src="@Model.CategoryThumbnailUrl"
+                                     alt="">
+                            </div>
+                            <div class="categoryTitle">@Model.CategoryName</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="voxBar">
+                <div class="actions">
+                    <div class="voxOption" data-report="vox" data-contentid="@Model.Id" data-contenttype="1">
+                        <i class="fas fa-flag" data-parent></i>
+                        <span class="voxOptionText" data-parent>Denunciar</span>
+                    </div>
+                    <div class="voxOption @(Model.IsFavorite ? "metaSelectedOption": string.Empty)" data-meta="favorite" data-contenttype="1" data-contentid="@Model.Id">
+                        <i data-parent class="fas fa-star"></i>
+                        <span data-parent class="voxOptionText">Favorito</span>
+                    </div>
+                    <div class="voxOption @(Model.IsFollowed ? "metaSelectedOption": string.Empty)" data-meta="follow" data-contenttype="1" data-contentid="@Model.Id">
+                        <i data-parent class="fas fa-thumbtack"></i>
+                        <span data-parent class="voxOptionText">Seguir</span>
+                    </div>
+                    <div class="voxOption @(Model.IsHidden ? "metaSelectedOption": string.Empty)" data-meta="hide" data-contenttype="1" data-contentid="@Model.Id">
+                        <i data-parent class="fas fa-lock"></i>
+                        <span data-parent class="voxOptionText">Ocultar</span>
+                    </div>
+                </div>
+                <div class="metadata">
+                    <div class="authorVox">
+
+                        @if (@Model.UserType == UserType.Administrator)
+                        {
+                            <span class="name adminTag ">@Model.UserName</span>
+                        }
+                        else
+                        {
+                            <span class="name ">Anonimo</span>
+                        }
+
+                        <span class="commentTag ">@Model.CommentTag</span>
+
+                        @if (User.IsInRole(nameof(Core.Entities.RoleType.Administrator)) || User.IsInRole(nameof(Core.Entities.RoleType.Moderator)))
+                        {
+                            <span class="commentTag pointer" data-delete data-contenttype="1" data-contentid="@Model.Id"><i class="fas fa-times" data-parent></i></span>
+                        }
+                    </div>
+                    <div class="voxCreatedAt">@Model.CreatedOn</div>
+                </div>
+            </div>
+
+            @*Guardar para la implementacion*@
+            @*@if (Model.Poll != null)
+                {
+                <div class="voxBar pollBar">
+                <div class="pollOptions">
+                <div class="pollOption " data-poll="1">
+                <div class="pollOptionText">@Model.Poll.OptionADescription</div>
+                <div class="pollOptionPerent" id="pollOnePorcen">
+                </div>
+                </div>
+                <div class="pollOption " data-poll="2">
+                <div class="pollOptionText">@Model.Poll.OptionBDescription</div>
+                <div class="pollOptionPercent" id="pollTwoPorcen">
+                </div>
+                </div>
+                </div>
+                </div>
+                }*@
+
+            <article class="voxContent" itemscope="itemscope" itemtype="http://schema.org/NewsArticle">
+
+                @if (@Model.Media is not null)
+                {
+                    switch (@Model.Media.MediaType)
+                    {
+                        case Voxed.WebApp.ViewModels.MediaType.Image:
+
+                            <figure class="voxAttach">
+                                <div class="voxAttachContainer">
+                                    <a class="voxImage" target="_BLANK" href="@Model.Media.Url">
+                                        <img src="@Model.Media.Url" alt="@Model.Title">
+                                    </a>
+                                </div>
+                            </figure>
+                            break;
+
+                        case Voxed.WebApp.ViewModels.MediaType.YouTube:
+
+                            <figure class="voxAttach">
+                                <div class="voxAttachContainer">
+                                    <div class="videoPreview"
+                             data-videopreview
+                             data-extension="ytb"
+                             data-extensiondata="@Model.Media.ExtensionData"
+                             data-hash="@Model.Hash"
+                             style="background: url('@Model.Media.ThumbnailUrl')">
+                                        <img class="lazyload" data-parent
+                                 data-src="/assets/images/play.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="via">
+                                    <a target="_BLANK"
+                           href="@Model.Media.Url">@Model.Media.Url</a>
+                                </div>
+                            </figure>
+                            break;
+
+                        case Voxed.WebApp.ViewModels.MediaType.Video:
+
+                            <video controls="" autoplay="" muted="" class="attach_video" width="100%" height="auto" preload="metadata" loop="">
+                                <source src="@Model.Media.Url" type="video/webm">
+                                Tu navegador no soporta etiquetas de video.
+                            </video>
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+
+                <header class="voxBody">
+                    <h1 itemprop="name" id="voxTitle">@Model.Title</h1>
+                    <div class="voxDescription" itemprop="articleBody" id="voxContent">@Html.Raw(Model.Content)</div>
+                </header>
+            </article>
+        </section>
+        <section class="voxCommentList">
+
+            @await Component.InvokeAsync("CommentForm", new { voxID = Model.Id, userID = Model.UserId })
+
+            <div class="sendMessage">
+                <div data-modal="sendMessage">Enviar mensaje global</div>
+            </div>
+
+            <div class="globalMessages">
+                <ul>
+                    @foreach (var message in GlobalMessageService.GetActiveMessages())
+                    {
+                        <a href="/home" data-event="click,button,REGISTER_GLOBAL_MESSAGE">
+                        <li class="message   multi">
+                            <div class="backgroundMessage" style="width: 97%"></div>
+                            <div class="messageContent">@message.Content</div>
+                            <div class="messageTokens"><i class="fas fa-gem" aria-hidden="true"></i> @message.Tokens.ToString()</div>
+                        </li>
+                        </a>
+
+                    }
+                </ul>
+            </div>
+
+            @*<form asp-controller="Comment" asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                <input id="VoxID" name="VoxID" type="hidden" class="form-control" value="@Model.ID" />
+                </div>
+                <div class="form-group">
+                <input id="UserID" name="UserID" type="hidden" class="form-control" value="@Model.UserID" />
+                </div>
+                <div class="form-group">
+                <input id="Content" name="Content" class="form-control" />
+                </div>
+                <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+                </form>*@
+
+            @*<form class="commentBox" asp-controller="Comment" asp-action="Create" enctype="multipart/form-data">
+                <div class="pollOption voted hide" id="commentPoll">
+                <div class="pollOptionText"></div>
+                <div class="pollOptionPercent" id="cancelVoteComment">X</div>
+                </div>
+                <textarea name="content" class="commentTextarea" id="commentTextarea" maxlength="3000"
+                placeholder="Escribe un comentario..."></textarea>
+                <div class="form-group">
+                <input id="VoxID" name="VoxID" type="hidden" class="form-control" value="@Model.ID" />
+                </div>
+                <div class="form-group">
+                <input id="UserID" name="UserID" type="hidden" class="form-control" value="@Model.UserID" />
+                </div>
+                <div class="commentBoxButtons">
+                <div class="attachs" id="commentAttachs">
+                <div class="attachButton tooltip-bottom"
+                data-upload="{ &quot;type&quot;: &quot;local&quot;, &quot;container&quot;: &quot;commentAttachs&quot; }"
+                data-tooltip="Subir archivo">
+                <i class="fas fa-upload"></i>
+                </div>
+                <input name="file" type="file"
+                accept="image/gif, image/jpeg, image/jpg, image/png, video/webm, video/mp4"
+                class="hiddeFileInput" data-preview="previewInputComment">
+                <div class="attachButton tooltip-bottom" data-tooltip="Subir via link"
+                data-upload="{ &quot;type&quot;: &quot;link&quot;, &quot;container&quot;: &quot;commentAttachs&quot;, &quot;preview&quot; : &quot;previewInputComment&quot; }">
+                <i class="fas fa-link"></i>
+                </div>
+                <div class="preview" id="previewInputComment">
+                <div class="closePreview" data-closepreview="previewInputComment">
+                <i class="fas fa-times"></i>
+                </div>
+                <img src="/web/20201020185538im_/https://www.voxed.net/vox/YFib7XD4Zv0evWKqvvi0" alt="">
+                </div>
+                </div>
+                <button type="submit" class="buttonPress newComment" id="newComment">
+                <i class="fas fa-circle-notch fa-spin"></i>
+                <span>Comentar</span>
+                </button>
+                </div>
+                </form>*@
+
+
+
+
+            @*Original*@
+
+            @*<form class="commentBox" id="createComment" enctype="multipart/form-data">
+                <div class="pollOption voted hide" id="commentPoll">
+                <div class="pollOptionText"></div>
+                <div class="pollOptionPercent" id="cancelVoteComment">X</div>
+                </div>
+                <textarea name="content" class="commentTextarea" id="commentTextarea" maxlength="3000"
+                placeholder="Escribe un comentario..."></textarea>
+                <div class="commentBoxButtons">
+                <div class="attachs" id="commentAttachs">
+                <div class="attachButton tooltip-bottom"
+                data-upload="{ &quot;type&quot;: &quot;local&quot;, &quot;container&quot;: &quot;commentAttachs&quot; }"
+                data-tooltip="Subir archivo">
+                <i class="fas fa-upload"></i>
+                </div>
+                <input name="file" type="file"
+                accept="image/gif, image/jpeg, image/jpg, image/png, video/webm, video/mp4"
+                class="hiddeFileInput" data-preview="previewInputComment">
+                <div class="attachButton tooltip-bottom" data-tooltip="Subir via link"
+                data-upload="{ &quot;type&quot;: &quot;link&quot;, &quot;container&quot;: &quot;commentAttachs&quot;, &quot;preview&quot; : &quot;previewInputComment&quot; }">
+                <i class="fas fa-link"></i>
+                </div>
+                <div class="preview" id="previewInputComment">
+                <div class="closePreview" data-closepreview="previewInputComment">
+                <i class="fas fa-times"></i>
+                </div>
+                <img src="/web/20201020185538im_/https://www.voxed.net/vox/YFib7XD4Zv0evWKqvvi0" alt="">
+                </div>
+                </div>
+                <button type="submit" class="buttonPress newComment" id="newComment">
+                <i class="fas fa-circle-notch fa-spin"></i>
+                <span>Comentar</span>
+                </button>
+                </div>
+                </form>*@
+
+
+            <div class="commentsVoxCount">
+                <span class="commentsVoxText" id="commentsVoxText">
+                    Comentarios (<span id="voxComments">@Model.Comments.Count()</span>)
+                </span>
+                <span class="commentsVoxText hide" id="attachsVoxText">
+                    Archivos (<span id="voxAttachsToggle">@Model.Comments.Where(x => x.Media is not null).Count()</span>)
+                </span>
+                <span class="attachsVox"><span data-openfiles><i class="fas fa-folder"></i></span></span>
+            </div>
+            <div class="commentsVoxCount loadmore disabled unselect" id="commentLoadMore" data-comments="0"></div>
+            <div class="attachList hide" id="attachList">
+
+
+                @foreach (var comment in @Model.Comments)
+                {
+                    @if (@comment.Media != null)
+                    {
+                        switch (comment.Media.MediaType)
+                        {
+                            case MediaType.Image:
+
+                                <div class="attach">
+                                    <img class="lazyload"
+                         data-attach="@comment.Hash"
+                         data-src="@comment.Media.Url"
+                         alt="">
+                                    <div class="attachType"><i class="fas fa-image"></i></div>
+                                </div>
+                                break;
+
+                            case MediaType.YouTube:
+
+                                <div class="attach">
+                                    <img class="lazyload"
+                         data-attach="@comment.Hash"
+                         data-src="@comment.Media.ThumbnailUrl"
+                         alt="">
+                                    <div class="attachType"><i class="fab fa-youtube"></i></div>
+                                </div>
+
+                                break;
+
+                            case MediaType.Video:
+
+                                <figure class="commentAttach">
+                                    <div class="commentAttachContainer">
+                                        <video controls="" autoplay="" muted="" class="attach_video" width="100%" height="auto" preload="metadata" loop="">
+                                            <source src="@comment.Media.Url" type="video/webm">
+                                            Tu navegador no soporta etiquetas de video.
+                                        </video>
+                                    </div>
+                                </figure>
+
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                }
+
+                @*<div class="attach">
+                    <img data-attach="NH61TLD"
+                    src="https://web.archive.org/web/20201020185538im_/https://upload.voxed.net/thumb_NH61TLD.jpg"
+                    alt="">
+                    <div class="attachType"><i class="fab fa-youtube"></i></div>
+                    </div>
+                    <div class="attach">
+                    <img data-attach="2DGFJZZ"
+                    src="https://web.archive.org/web/20201020185538im_/https://upload.voxed.net/thumb_2DGFJZZ.jpg"
+                    alt="">
+                    <div class="attachType"><i class="fas fa-image"></i></div>
+                    </div>
+                    <div class="attach">
+                    <img data-attach="GOJV5XI"
+                    src="https://web.archive.org/web/20201020185538im_/https://upload.voxed.net/thumb_GOJV5XI.jpg"
+                    alt="">
+                    <div class="attachType"><i class="fas fa-image"></i></div>
+                    </div>*@
+            </div>
+            <div class="commentList" id="commentList">
+                <div class="commentContainer">
+
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <div class="comment @(comment.IsSticky ? "COMMENT_STICKY" : string.Empty)" id="@comment.Hash" data-id="@comment.ID">
+                            <div class="commentAvatar">
+                                <div class="unselect avatarColor  @comment.AvatarColor">
+                                    <span class="avatarText">@comment.AvatarText</span>
+                                </div>
+                            </div>
+                            <div class="commentBody">
+                                <div class="commentMetadata">
+                                    <div class="commentsTag unselect">
+                                        @if (comment.IsSticky)
+                                        {
+                                            <span class="commentTagBg commentSticky">Destacado</span>
+                                        }
+
+                                        @if (comment.IsOp)
+                                        {
+                                            <span class="commentTagBg op">OP</span>
+                                        }
+
+                                        @if (comment.IsAdmin)
+                                        {
+                                            <span class="author adminTag" style="">@comment.Author</span>
+                                            <span class="commentTag adminTag">@comment.Tag</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="author   " style="">@comment.Author</span>
+                                            <span class="commentTag ">@comment.Tag</span>
+                                        }
+
+                                        @if (User.IsInRole(nameof(Core.Entities.RoleType.Administrator)))
+                                        {
+                                            <span class="checkComment"><input class="selectComment" type="checkbox" data-checkcomment="@comment.ID"></span>
+                                            <span class="commentTag hide adminTag" data-reactive data-contenttype="0" data-contentid="@comment.ID">Reactivar</span>
+                                        }
+
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            var userId = Guid.Parse(UserManager.GetUserId(User));
+
+                                            @if (userId == Model.UserId 
+                                                || User.IsInRole(nameof(Core.Entities.RoleType.Administrator)) || User.IsInRole(nameof(Core.Entities.RoleType.Moderator)))
+                                            {
+                                                <span class="commentTag pointer" data-delete data-contenttype="0" data-contentid="@comment.ID"><i class="fas fa-times" data-parent></i></span>
+                                            }
+
+                                            @if (!comment.IsSticky && userId == Model.UserId)
+                                            {
+                                                <span class="commentTag pointer" data-stickycomment data-contenttype="0" data-contentid="@comment.ID"><i class="fas fa-thumbtack" data-parent></i></span>
+                                            }
+                                        }
+
+                                        <span class="commentTag pointer" data-tag="@comment.Hash">@comment.Hash</span>
+
+                                    </div>
+                                    <div class="commentMetaRight">
+                                        <div class="commentCreatedAt">@comment.CreatedOn.DateTime.ToTimeAgo()</div>
+                                        <div class="commentAction" data-commentaction="@comment.Hash">
+                                            <i data-parent
+                                           class="fas fa-ellipsis-v"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="commentReply"></div>
+                                <div class="commentData ">
+
+                                    @*<span class="greentext">&gt;judio</span><br>*@
+
+                                    @if (@comment.Media != null)
+                                    {
+                                        switch (comment.Media.MediaType)
+                                        {
+                                            case MediaType.Image:
+
+                                                <figure class="commentAttach">
+                                                    <div class="commentAttachContainer">
+                                                        <a class="voxImage" target="_BLANK"
+                                           href="@comment.Media.Url">
+                                                            <img class="lazyload"
+                                                 data-src="@comment.Media.Url">
+                                                        </a>
+                                                    </div>
+                                                </figure>
+                                                break;
+
+                                            case MediaType.YouTube:
+
+                                                <figure class="commentAttach">
+                                                    <div class="commentAttachContainer">
+                                                        <div data-videopreview data-extension="ytb" data-extensiondata="@comment.Media?.Url.Split('=')[(comment.Media?.Url.Split('=').Length-1).Value]"
+                                             data-hash="@comment.Hash" class="videoPreview"
+                                             style="background: url('@comment.Media.ThumbnailUrl')">
+                                                            <img class="lazyload"
+                                                 data-parent
+                                                 data-src="/assets/images/play.png"
+                                                 alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="via">
+                                                        <a target="_BLANK"
+                                           href="@comment.Media.Url">@comment.Media.Url</a>
+                                                    </div>
+                                                </figure>
+
+                                                break;
+
+                                            case MediaType.Video:
+
+                                                @*<figure class="commentAttach">
+                                                    <div class="commentAttachContainer">
+                                                    <div data-videopreview="" data-extension="webm" data-extensiondata="" data-hash="JOEDVO8" class="videoPreview" style="background: url('https://web.archive.org/web/20200816221810im_/https://upload.voxed.net/thumb_JOEDVO8.jpg')">
+                                                    <img data-parent="" src="/web/20200816221810im_/https://www.voxed.net/assets/images/play.png" alt="">
+                                                    </div>
+                                                    </div>
+                                                    </figure>*@
+
+                                                <video controls="" autoplay="" muted="" class="attach_video" width="100%" height="auto" preload="metadata" loop="">
+                                                    <source src="@comment.Media.Url" type="video/webm">Tu navegador no soporta etiquetas de video.
+                                                </video>
+
+
+                                                break;
+
+                                            default:
+                                                break;
+                                        }
+                                    }
+
+                                    <div class="commentContent">
+                                        @Html.Raw(comment.Content?.Trim())
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                <div class="floatQuote" id="floatQuote"></div>
+
+                <div class="floatCommentAction" id="floatCommentAction">
+                    <div class="commentActionButton" id="commentHideAction" data-meta="hide" data-contentid=""
+                         data-contenttype="0">
+                        <div class="commentActionIcon" data-parent><i class="fas fa-eye"></i></div>
+                        <div class="commentActionTitle" data-parent>Ocultar</div>
+                    </div>
+                    <div class="commentActionButton" id="commentReportAction" data-report="comment"
+                         data-contentid="" data-contenttype="0">
+                        <div class="commentActionIcon" data-parent><i class="fas fa-flag"></i></div>
+                        <div class="commentActionTitle" data-parent>Denunciar</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<script>
+    var VOX_ID = "@GuidExtension.ToShortString(Model.Id)";
+    var VOX_HASH = "@GuidExtension.ToShortString(Model.Id)";
+    var IS_OP = "0";
+    var ACTUAL_PAGE = "vox";
+    var TITLE = "Voxed  | @Model.Title";
+</script>
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

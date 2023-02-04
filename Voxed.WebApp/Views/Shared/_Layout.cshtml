@@ -1,0 +1,842 @@
+﻿<!DOCTYPE html>
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@{
+    string result = "darkmode";
+    //string result = string.Empty;
+    //if (Context.Request.Cookies.TryGetValue("config", out string value))
+    //{
+    //    result = value.Contains("darkmode") && value.Contains("true") ? "darkmode" : "";
+    //}
+}
+
+<html class="@result" lang="es">
+<head>
+    <script data-ad-client="ca-pub-6267970976305303" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["NotificationsCount"] @Configuration["ApplicationName"] | @ViewData["Title"]</title>
+    <meta name="theme-color" content="#2C3E50" />
+    <link rel="stylesheet" href="~/css/bundle2.min.css" />
+    <meta name="description"
+          content="Voxed es una plataforma social orientada al anonimato, donde se puede compartir casi cualquier tipo de contenido de forma inmediata.">
+
+    <link rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"
+          integrity="" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&amp;display=swap"
+          rel="stylesheet" async defer>
+    <link rel="stylesheet" src="https://unpkg.com/css-tooltip" />
+    <link rel="shortcut icon" href="/favicon.ico">
+</head>
+<body>
+    <nav>
+        <div class="logo unselect">
+            <a href="/" class="navbarLogo">@Configuration["ApplicationName"].ToString().ToLower()</a>
+
+            @await Component.InvokeAsync("CategoriesMenuList")
+
+        </div>
+
+        @*<ul class="menu unselect" id="navbarMenu">
+            <li class="menuIcon tooltip-bottom mobile" data-tooltip="Buscar" data-togglesearch>
+            <i class="fas fa-search"></i>
+            </li>
+            <li class="menuIcon tooltip-bottom mobile closeSearch" data-tooltip="Cerrar" data-togglesearch>
+            <i class="fas fa-times"></i>
+            </li>
+            <li class="search">
+            <input type="text" id="searchInput" placeholder="Buscar...">
+            </li>
+            <partial name="_LoginPartial" />
+            <li class="menuIcon tooltip-bottom mobile" data-toggle="slideMenu" data-tooltip="Menu">
+            <i class="fas fa-bars"></i>
+            </li>
+            <li class="newVox" data-function="createVox">INICIAR VOX</li>
+            </ul>*@
+
+
+        @await Component.InvokeAsync("NotificationNavList")
+
+        <div class="alertBox"></div>
+    </nav>
+    <div class="bottonContextual" data-function="createVox"><i class="fas fa-plus"></i></div>
+    @*<header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Voxed.WebApp</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+        <ul class="navbar-nav flex-grow-1">
+        <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </li>
+        </ul>
+        </div>
+        </div>
+        </nav>
+        </header>*@
+    @*<div class="container">
+        <main role="main" class="pb-3">
+        @RenderBody()
+        </main>
+        </div>*@
+
+    @*<main>
+        <div class="loadNewVox disabled unselect" data-voxs="0" id="voxLoadMore"></div>
+        <div class="voxList" id="voxList">
+        @RenderBody()
+        </div>
+        <div class="loadingSpinner hide" id="homeLoadingSpinner"><i class="fas fa-spinner fa-spin"></i></div>
+        </main>*@
+    @*<form class="modalBox createVox" id="createVox" enctype="multipart/form-data">
+        <select name="niche">
+        <option value="" selected="selected" disabled="disabled">Elige una categoría</option>
+        <option value="3">Anime</option>
+        <option value="4">Arte</option>
+        <option value="25">Autos y Motos</option>
+        <option value="18">Ciencia</option>
+        <option value="5">Cine y TV</option>
+        <option value="21">Consejos</option>
+        <option value="6">Deportes</option>
+        <option value="17">Descargas</option>
+        <option value="23">Economia</option>
+        <option value="24">Gastronomia</option>
+        <option value="2">General</option>
+        <option value="8">Historias</option>
+        <option value="16">Humanidades</option>
+        <option value="9">Humor</option>
+        <option value="7">Juegos</option>
+        <option value="22">Literatura</option>
+        <option value="19">Lugares</option>
+        <option value="10">Musica</option>
+        <option value="11">Noticias</option>
+        <option value="12">Paranormal</option>
+        <option value="13">Politica</option>
+        <option value="1">Preguntas</option>
+        <option value="32">Programacion</option>
+        <option value="20">Salud</option>
+        <option value="15">Tecnología</option>
+        <option value="33">Videos (webm)</option>
+        <option value="26">Youtubers</option>
+        <option value="30">GTB</option>
+        <option value="28">Porno</option>
+        <option value="29">Random</option>
+        <option value="31">Sexy</option>
+        </select>
+        <input name="title" type="text" placeholder="Titulo" maxlength="120">
+        <div class="selectAttach" id="voxAttachs">
+        <div class="uploadFromLocal tooltip-bottom" data-tooltip="Subir archivo"
+        data-upload="{ &quot;type&quot;: &quot;local&quot;, &quot;container&quot;: &quot;voxAttachs&quot; }">
+        <i class="fas fa-upload"></i>
+        </div>
+        <input name="file" type="file" accept="image/gif, image/jpeg, image/jpg, image/png, video/webm, video/mp4"
+        class="hiddeFileInput" data-preview="previewInputVox">
+        <div class="uploadFromLink tooltip-bottom" data-tooltip="Subir via link"
+        data-upload="{ &quot;type&quot;: &quot;link&quot;, &quot;container&quot;: &quot;voxAttachs&quot;, &quot;preview&quot; : &quot;previewInputVox&quot; }">
+        <i class="fas fa-link"></i>
+        </div>
+        </div>
+        <div class="preview" id="previewInputVox">
+        <div class="closePreview" data-closepreview="previewInputVox">
+        <i class="fas fa-times"></i>
+        </div>
+        <img src="/web/20200816001928im_/https://www.voxed.net/" alt="">
+        </div>
+        <textarea name="content" class="newVoxContent" id="voxTextarea" maxlength="5000"
+        placeholder="Escribe el contenido del vox o pega una imagen..."></textarea>
+        <div class="subtitle pointer" data-toggle="polls">
+        <span class="subtitleText">
+        <i class="fas fa-poll"></i>Encuesta
+        </span>
+        <span class="subtitleToggle">
+        <i class="fas fa-plus"></i>
+        </span>
+        </div>
+        <div class="polls hide" id="polls">
+        <input type="text" name="pollOne" maxlength="50" placeholder="Opcion 1">
+        <input type="text" name="pollTwo" maxlength="50" placeholder="Opcion 2">
+        </div>
+        <div id="voxCaptchaResponse"></div>
+        <div class="g-recaptcha" data-sitekey="52e1cb08-4dd4-4587-add7-60137b2a6a5a" data-callback="verifyVox"></div>
+        <a class="noCaptcha" target="_BLANK" data-event="click,button,CREATE_VOX_NO_MORE_CAPTCHAS"
+        href="/web/20200816001928/https://www.voxed.net/registro">No llenes mas captchas</a>
+        <button class="buttonPress" id="newVox" type="submit">
+        <i class="fas fa-circle-notch fa-spin"></i>
+        <span>Iniciar vox</span>
+        </button>
+        </form>*@
+
+    @RenderBody()
+
+
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>*@
+    <div class="modalBg" id="modalBg"></div>
+    <div class="modalBox verify" id="verify">
+        <h1>Reglas</h1>
+        <p>
+            Las condiciones de acceso y uso a Voxed.net se rige por las leyes de la República Argentina. Los Usuarios se
+            comprometen a hacer un uso legal y responsable de la plataforma y aceptar sus términos y condiciones. No se permiten
+            conductas que vayan contra las leyes, los derechos e intereses de terceros. Voxed.net se reserva el derecho de hacer
+            llegar a la justicia y/u organismo de seguridad todo aquel material de origen dudoso y/o sensible que considere
+            contrario a derecho. Si no está de acuerdo podrá dejar de utilizar los servicios del sitio.
+        </p>
+        @*<div class="h-captcha" data-sitekey="52e1cb08-4dd4-4587-add7-60137b2a6a5a" data-callback="verifySession"></div>
+            <div class="g-recaptcha" data-sitekey="52e1cb08-4dd4-4587-add7-60137b2a6a5a" data-callback="verifySession"></div>*@
+        <span class="conditions">
+            Al aceptar este mensaje te estas comprometiendo a respetar las normas del sitio y sus Terminos y Condiciones
+        </span>
+    </div>
+
+    @await Component.InvokeAsync("VoxForm")
+
+    @*<form class="modalBox createVox" id="NewVox" asp-controller="Vox" asp-action="Create" enctype="multipart/form-data">
+
+        @await Component.InvokeAsync("CategoriesDropdown")
+
+        <input name="title" type="text" placeholder="Titulo" maxlength="120">
+        <div class="selectAttach" id="voxAttachs">
+        <div class="uploadFromLocal tooltip-bottom" data-tooltip="Subir archivo"
+        data-upload="{ &quot;type&quot;: &quot;local&quot;, &quot;container&quot;: &quot;voxAttachs&quot; }">
+        <i class="fas fa-upload"></i>
+        </div>
+        <input name="file" type="file" accept="image/gif, image/jpeg, image/jpg, image/png, video/webm, video/mp4"
+        class="hiddeFileInput" data-preview="previewInputVox">
+        <div class="uploadFromLink tooltip-bottom" data-tooltip="Subir via link"
+        data-upload="{ &quot;type&quot;: &quot;link&quot;, &quot;container&quot;: &quot;voxAttachs&quot;, &quot;preview&quot; : &quot;previewInputVox&quot; }">
+        <i class="fas fa-link"></i>
+        </div>
+        </div>
+        <div class="preview" id="previewInputVox">
+        <div class="closePreview" data-closepreview="previewInputVox">
+        <i class="fas fa-times"></i>
+        </div>
+        <img src="/web/20200816001928im_/https://www.voxed.net/" alt="">
+        </div>
+        <textarea name="content" class="newVoxContent" id="voxTextarea" maxlength="5000"
+        placeholder="Escribe el contenido del vox o pega una imagen..."></textarea>
+        <div class="subtitle pointer" data-toggle="polls">
+        <span class="subtitleText">
+        <i class="fas fa-poll"></i>Encuesta
+        </span>
+        <span class="subtitleToggle">
+        <i class="fas fa-plus"></i>
+        </span>
+        </div>
+        <div class="polls hide" id="polls">
+        <input type="text" name="pollOne" maxlength="50" placeholder="Opcion 1">
+        <input type="text" name="pollTwo" maxlength="50" placeholder="Opcion 2">
+        </div>
+
+        <button class="buttonPress" id="newVox" type="submit">
+        <i class="fas fa-circle-notch fa-spin"></i>
+        <span>Iniciar vox</span>
+        </button>
+        </form>*@
+
+    <div class="modalBox accountModal" id="accountModal">
+        <div class="modalSelector">
+            <div class="selectorOption selectedOption unselect" data-selector="login">Iniciar Sesion</div>
+            <div class="selectorOption unselect" data-selector="register">
+                <i class="fas fa-address-card"></i>Registrarse
+            </div>
+        </div>
+        <form class="modalSection login" id="login">
+            <input type="text" name="username" placeholder="Nombre de usuario">
+            <input type="password" name="password" placeholder="Contraseña">
+            @*<div class="loginCaptcha">
+                <div class="g-recaptcha" data-sitekey="52e1cb08-4dd4-4587-add7-60137b2a6a5a"></div>
+                </div>*@
+            <button type="submit" class="buttonPress">Entrar</button>
+        </form>
+        <form class="modalSection register hideSelector" id="register">
+            <input type="text" name="username" placeholder="Nombre de usuario">
+            <input type="password" name="password" placeholder="Contraseña">
+            <input type="password" name="confirmPassword" placeholder="Confirmar contraseña">
+            @*<select name="days">
+                <option value="30">[1000 tokens] Membresia por 30 dias (U$D 2)</option>
+                <option value="90" selected>[4000 tokens] Membresia por 90 dias (U$D 5)</option>
+                <option value="180">[8000 tokens] Membresia por 180 dias (U$D 8)</option>
+                <option value="360">[20000 tokens] Membresia por 360 dias (U$D 12)</option>
+                <option value="360">[100000 tokens] Membresia por 360 dias (U$D 30)</option>
+                </select>*@
+            @*<div class="paymentInfo">
+                <a href="#"
+                data-event="click,button,REGISTER_FORM_MORE_DATA">¿Que beneficios tengo con mi membresia?</a>
+                </div>*@
+            <button data-event="click,button,REGISTER" type="submit" class="buttonPress" id="registerSubmit">
+                <i class="fas fa-circle-notch fa-spin loadingIcon"></i>Registrarme
+            </button>
+            @*<div class="paymentInfo">
+                El pago se efectua por MercadoPago, estan disponibles todos los medios de pagos con tarjeta de debito, credito,
+                rapipago, y saldo de MercadoPago.
+                <br><br>
+                Una vez efectuado el pago la membresia se activa en el instante.
+                </div>*@
+        </form>
+    </div>
+
+
+
+    <!--<div class="modalBox accountModal" id="accountModal">
+        <div class="modalSelector">
+            <div class="selectorOption selectedOption unselect" data-selector="login">Iniciar Sesion</div>
+            <div class="selectorOption unselect" data-selector="register">
+                <i class="fas fa-address-card"></i>Obtener Membresia
+            </div>
+        </div>
+        <form class="modalSection login" id="login">
+            <input type="text" name="username" placeholder="Nombre de usuario">
+            <input type="password" name="password" placeholder="Contraseña">-->
+    @*<div class="loginCaptcha">
+        <div class="g-recaptcha" data-sitekey="52e1cb08-4dd4-4587-add7-60137b2a6a5a"></div>
+        </div>*@
+    <!--<button type="submit" class="buttonPress">Entrar</button>
+        </form>
+        <form class="modalSection register hideSelector" id="register">
+            <input type="text" name="username" placeholder="Nombre de usuario">
+            <input type="password" name="password" placeholder="Contraseña">
+            <input type="text" name="email" placeholder="Email">
+            <select name="days">
+                <option value="30">[1000 tokens] Membresia por 30 dias (U$D 2)</option>
+                <option value="90" selected>[4000 tokens] Membresia por 90 dias (U$D 5)</option>
+                <option value="180">[8000 tokens] Membresia por 180 dias (U$D 8)</option>
+                <option value="360">[20000 tokens] Membresia por 360 dias (U$D 12)</option>
+                <option value="360">[100000 tokens] Membresia por 360 dias (U$D 30)</option>
+            </select>
+            <div class="paymentInfo">
+                <a href="#"
+                   data-event="click,button,REGISTER_FORM_MORE_DATA">¿Que beneficios tengo con mi membresia?</a>
+            </div>
+            <button data-event="click,button,REGISTER" type="submit" class="buttonPress" id="registerSubmit">
+                <i class="fas fa-circle-notch fa-spin loadingIcon"></i>Registrarme
+            </button>
+            <div class="paymentInfo">
+                El pago se efectua por MercadoPago, estan disponibles todos los medios de pagos con tarjeta de debito, credito,
+                rapipago, y saldo de MercadoPago.
+                <br><br>
+                Una vez efectuado el pago la membresia se activa en el instante.
+            </div>
+        </form>
+    </div>-->
+    @await Component.InvokeAsync("CategoriesSubscriptions")
+
+    @* <div class="modalBox niches" id="niches">
+        <div class="modalHeader">
+        <div class="modalTitle">Categorias</div>
+        <div class="closeModal">Cerrar</div>
+        </div>
+        <div class="detail">Haz click en las categorias para mostrarlas u ocultarlas de la pagina principal.</div>
+        <ul class="nicheList">
+        <li id="category-3" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/anm.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Anime</div>
+        <div class="nicheSlug">/anm/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-4" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/art.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Arte</div>
+        <div class="nicheSlug">/art/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-25" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/aut.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Autos y Motos</div>
+        <div class="nicheSlug">/aut/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-18" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/cnc.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Ciencia</div>
+        <div class="nicheSlug">/cnc/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-5" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/cin.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Cine y TV</div>
+        <div class="nicheSlug">/cin/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-21" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/con.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Consejos</div>
+        <div class="nicheSlug">/con/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-6" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/dpt.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Deportes</div>
+        <div class="nicheSlug">/dpt/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-17" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/dwl.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Descargas</div>
+        <div class="nicheSlug">/dwl/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-23" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/eco.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Economia</div>
+        <div class="nicheSlug">/eco/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-24" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/gas.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Gastronomia</div>
+        <div class="nicheSlug">/gas/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-2" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/off.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">General</div>
+        <div class="nicheSlug">/off/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-8" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/his.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Historias</div>
+        <div class="nicheSlug">/his/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-16" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/hum.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Humanidades</div>
+        <div class="nicheSlug">/hum/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-9" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/hmr.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Humor</div>
+        <div class="nicheSlug">/hmr/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-7" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/gmr.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Juegos</div>
+        <div class="nicheSlug">/gmr/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-22" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/lit.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Literatura</div>
+        <div class="nicheSlug">/lit/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-19" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/lgr.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Lugares</div>
+        <div class="nicheSlug">/lgr/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-10" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/mus.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Musica</div>
+        <div class="nicheSlug">/mus/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-11" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/not.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Noticias</div>
+        <div class="nicheSlug">/not/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-12" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/par.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Paranormal</div>
+        <div class="nicheSlug">/par/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-13" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/pol.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Politica</div>
+        <div class="nicheSlug">/pol/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-1" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/prg.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Preguntas</div>
+        <div class="nicheSlug">/prg/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-32" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/pro.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Programacion</div>
+        <div class="nicheSlug">/pro/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-20" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/sld.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Salud</div>
+        <div class="nicheSlug">/sld/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-15" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/tec.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Tecnología</div>
+        <div class="nicheSlug">/tec/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-33" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/vid.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Videos (webm)</div>
+        <div class="nicheSlug">/vid/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-26" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/ytb.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Youtubers</div>
+        <div class="nicheSlug">/ytb/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-30" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/gtb.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">GTB</div>
+        <div class="nicheSlug">/gtb/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-28" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/xxx.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Porno</div>
+        <div class="nicheSlug">/xxx/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-29" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/uff.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Random</div>
+        <div class="nicheSlug">/uff/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        <li id="category-31" style="background: url(https://www.voxed.net/)"
+        data-background="url('https://content.voxed.net/hot.jpg');">
+        <div class="nicheData">
+        <div class="nicheTitle">Sexy</div>
+        <div class="nicheSlug">/hot/</div>
+        </div>
+        <div class="nicheAction">
+        <div class="followNiche">Seguir</div>
+        </div>
+        </li>
+        </ul>
+        </div>*@
+    <div class="slideMenu unselect hide" id="slideMenu">
+        <ul class="slideMenuOptions">
+            @*<li class="optionsTitle">Membresia</li>
+                <li data-function="accountModal">
+                <div class="optionIcon"><i class="fas fa-user" aria-hidden="true"></i></div>
+                <div class="optionText">Iniciar sesion</div>
+                </li>
+                <a href="#">
+                <li>
+                <div class="optionIcon"><i class="fas fa-address-card" aria-hidden="true"></i></div>
+                <div class="optionText">Obtener membresia</div>
+                </li>
+                </a>*@
+            <li class="optionsTitle">Voxs</li>
+            <li data-function="createVox">
+                <div class="optionIcon"><i class="fas fa-plus" aria-hidden="true"></i></div>
+                <div class="optionText">Iniciar vox</div>
+            </li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a href="/favoritos">
+                <li>
+                    <div class="optionIcon"><i class="fas fa-star" aria-hidden="true"></i></div>
+                    <div class="optionText">Favoritos</div>
+                </li>
+                </a>
+
+                <a href="/ocultos">
+                <li>
+                    <div class="optionIcon"><i class="fas fa-eye" aria-hidden="true"></i></div>
+                    <div class="optionText">Ocultos</div>
+                </li>
+                </a>
+            }
+
+            <li class="optionsTitle">Plataforma</li>
+            <li data-function="hiddenWords">
+                <div class="optionIcon"><i class="fas fa-eye" aria-hidden="true"></i></div>
+                <div class="optionText">Palabras ocultas</div>
+            </li>
+            <li data-function="visibleCategories">
+                <div class="optionIcon"><i class="fas fa-dice-d6" aria-hidden="true"></i></div>
+                <div class="optionText">Categorias visibles</div>
+            </li>
+            <li data-function="config">
+                <div class="optionIcon"><i class="fas fa-cog" aria-hidden="true"></i></div>
+                <div class="optionText">Configuracion avanzada</div>
+            </li>
+        </ul>
+    </div>
+    <div class="modalBox modalConfig" id="config">
+        <div class="modalHeader">
+            <div class="modalTitle">Configuracion avanzada</div>
+            <div class="closeModal">Cerrar</div>
+        </div>
+        <div class="modalContent">
+            <ul class="config">
+                <li>
+                    <div class="configTitle">Modo nocturno activado permanentemente</div>
+                    <div class="configToggle">
+                        <label class="switch">
+                            <input type="checkbox" data-toggleconfig="darkmode">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="modalBox modalConfig" id="hiddenWords">
+        <div class="modalHeader">
+            <div class="modalTitle">Palabras ocultas</div>
+            <div class="closeModal">Cerrar</div>
+        </div>
+        <div class="modalContent">
+            <div class="hiddenWords">
+                <textarea id="hiddenWordsTextarea"
+                          placeholder="Indica una lista de palabras separadas por una coma. Ej: perro, gato, loro,.."></textarea>
+                <button class="buttonPress" id="hiddenWordsSubmit" type="submit">
+                    <span>Guardar</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="modalBox modalGlobalMessage boostVox" id="sendMessage">
+        <div class="modalHeader">
+            <div class="modalTitle">Enviar mensaje global</div>
+            <div class="closeModal">Cerrar</div>
+        </div>
+        <div class="modalContent">
+            <p>Tu mensaje se mostrara en todos los voxs durante cierta cantidad de tiempo</p>
+            <textarea id="globalMessageContent" maxlength="140" class="globalMessageContent"
+                      placeholder="Escribe un mensaje..."></textarea>
+            <select id="globalMessageTime" class="globalMessageTime">
+                <option value="0">[50 tokens] 10 minutos</option>
+                <option value="1">[130 tokens] 30 minutos</option>
+                <option value="2">[300 tokens] 1 hora</option>
+                <option value="3">[500 tokens] 2 horas</option>
+                <option value="4">[1000 tokens] 4 horas</option>
+                <option value="5">[4000 tokens] 24 horas</option>
+            </select>
+            <button id="sendGlobalMessage" type="submit" class="buttonPress">
+                <span>Enviar mensaje global</span>
+            </button>
+        </div>
+    </div>
+    <div class="modalBox" id="accountExtend">
+        <div class="modalHeader">
+            <div class="modalTitle">Extender membresia</div>
+            <div class="closeModal">Cerrar</div>
+        </div>
+        <div class="modalContent">
+            <div class="membership " data-extend="30">
+                <div class="membershipRight">
+                    <div class="membershipTitle">1 mes</div>
+                    <div class="membershipTokens"><i class="fas fa-gem"></i> 1000</div>
+                </div>
+                <div class="membershipLeft">
+                    <div class="membershipPrice">U$D 2</div>
+                </div>
+            </div>
+            <div class="membership blue" data-extend="90">
+                <div class="membershipRight">
+                    <div class="membershipTitle">3 meses</div>
+                    <div class="membershipTokens"><i class="fas fa-gem"></i> 4000</div>
+                </div>
+                <div class="membershipLeft">
+                    <div class="membershipPrice">U$D 5</div>
+                </div>
+            </div>
+            <div class="membership red" data-extend="180">
+                <div class="membershipRight">
+                    <div class="membershipTitle">6 meses</div>
+                    <div class="membershipTokens"><i class="fas fa-gem"></i> 8000</div>
+                </div>
+                <div class="membershipLeft">
+                    <div class="membershipPrice">U$D 8</div>
+                </div>
+            </div>
+            <div class="membership gold" data-extend="360">
+                <div class="membershipRight">
+                    <div class="membershipTitle">1 año</div>
+                    <div class="membershipTokens"><i class="fas fa-gem"></i> 20000</div>
+                </div>
+                <div class="membershipLeft">
+                    <div class="membershipPrice">U$D 12</div>
+                </div>
+            </div>
+            <div class="membership gold" data-extend="360">
+                <div class="membershipRight">
+                    <div class="membershipTitle">1 año</div>
+                    <div class="membershipTokens"><i class="fas fa-gem"></i> 100000</div>
+                </div>
+                <div class="membershipLeft">
+                    <div class="membershipPrice">U$D 30</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/lazysizes.min.js"></script>
+    <script src="~/js/ls.bgset.min.js"></script>
+    <script src="~/js/ls.unveilhooks.min.js"></script>
+    <script src="~/js/ls.unload.min.js"></script>
+
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+
+    <script src="~/js/bundle18.js"></script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+
+    <script>
+
+        window.openNotifications = () => {
+            document.getElementById("notificationsList").classList.remove("hide");
+        }
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVXRV5V095"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-EVXRV5V095');
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Voxed.WebApp.Models.VoxResponse>
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="modHome"></div>
+
+<main>
+    <div id="adminPanel">
+        @*"data-ban"
+            "data-delete"
+            "data-clean"*@
+
+        <div class="voxActionBotton">
+            <div class="actionText" data-ban="ban" data-contenttype="1" data-contentid="123">Ban</div>
+        </div>
+        <div class="voxActionBotton">
+            <div class="actionText" data-delete="delete" data-contenttype="1" data-contentid="123">Delete</div>
+        </div>
+        <div class="voxActionBotton">
+            <div class="actionText" data-clean="clean" data-contentid="123" data-contenttype="1">Clean</div>
+        </div>
+    </div>
+    <div id="reportData-123">
+        <div class="voxWrapper">
+
+            <button id="setRole">SetRole</button>
+            <button id="editVox" type="submit">editVox</button>
+            <button id="changeCategory">changeCategory</button>
+            <button id="usernameSearchSend">usernameSearchSend</button>
+            <button id="ipSearchSend">ipSearchSend</button>
+            <button id="usernameLogSearchSend">usernameLogSearchSend</button>
+            <button id="unban">Unban</button>
+           @* <select id="changeCategory">
+                <option value="Audi">Audi</option>
+                <option value="BMW">BMW</option>
+                <option value="Mercedes">Mercedes</option>
+                <option value="Volvo">Volvo</option>
+            </select>*@
+
+            <select name="niche" id="changeCategory">
+                <option disabled="disabled" selected="selected" value="0">Elige una categoría</option>
+                <option value="1">Anime</option>
+                <option value="29">Arte</option>
+                <option value="28">Autos y Motos</option>
+                <option value="27">Ciencia</option>
+                <option value="26">Cine</option>
+                <option value="25">Consejos</option>
+                <option value="24">Deportes</option>
+                <option value="23">Download</option>
+                <option value="22">Economia</option>
+                <option value="3">GTB</option>
+                <option value="21">Gastronomia</option>
+                <option value="20">General</option>
+                <option value="19">Historias</option>
+                <option value="18">Humanidad</option>
+                <option value="17">Humor</option>
+                <option value="30">Juegos</option>
+                <option value="16">Literatura</option>
+                <option value="14">Lugares</option>
+                <option value="13">Musica</option>
+                <option value="12">Noticias</option>
+                <option value="11">Paranormal</option>
+                <option value="10">Politica</option>
+                <option value="2">Porno</option>
+                <option value="9">Preguntas</option>
+                <option value="8">Programacion</option>
+                <option value="15">Random</option>
+                <option value="7">Salud</option>
+                <option value="31">Sexy</option>
+                <option value="6">Tecnologia</option>
+                <option value="5">Videos (webm)</option>
+                <option value="4">Youtubers</option>
+            </select>
+        </div>
+    </div>
+</main>
+<script>
+    var ACTUAL_PAGE = "panel";
+    var TITLE = "Voxed ";
+</script>
+
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
+

@@ -1,0 +1,55 @@
+﻿@using Core.Entities
+@model IEnumerable<Category>
+
+@*<select name="CategoryId">
+        <option value="" selected="selected" disabled="disabled">Elige una categoría</option>
+
+        @foreach (var category in Model)
+        {
+            <option value="@category.Id">@category.Name</option>
+        }
+</select>*@
+
+<select name="niche">
+        <option disabled="disabled" selected="selected" value="0">Elige una categoría</option>
+
+        @foreach (var category in Model)
+        {
+            <option value="@category.Id">@category.Name</option>
+        }
+</select>
+
+@*<select name="niche">
+    <option disabled="disabled" selected="selected" value="0">Elige una categoría</option>
+    <option value="1">Anime</option>
+    <option value="29">Arte</option>
+    <option value="28">Autos y Motos</option>
+    <option value="27">Ciencia</option>
+    <option value="26">Cine</option>
+    <option value="25">Consejos</option>
+    <option value="24">Deportes</option>
+    <option value="23">Download</option>
+    <option value="22">Economia</option>
+    <option value="3">GTB</option>
+    <option value="21">Gastronomia</option>
+    <option value="20">General</option>
+    <option value="19">Historias</option>
+    <option value="18">Humanidad</option>
+    <option value="17">Humor</option>
+    <option value="30">Juegos</option>
+    <option value="16">Literatura</option>
+    <option value="14">Lugares</option>
+    <option value="13">Musica</option>
+    <option value="12">Noticias</option>
+    <option value="11">Paranormal</option>
+    <option value="10">Politica</option>
+    <option value="2">Porno</option>
+    <option value="9">Preguntas</option>
+    <option value="8">Programacion</option>
+    <option value="15">Random</option>
+    <option value="7">Salud</option>
+    <option value="31">Sexy</option>
+    <option value="6">Tecnologia</option>
+    <option value="5">Videos (webm)</option>
+    <option value="4">Youtubers</option>
+</select>*@

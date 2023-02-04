@@ -1,0 +1,1 @@
+web: dotnet ./app/Voxed.WebApp.dll

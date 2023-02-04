@@ -1,0 +1,17 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - /usr/local/bin/dotnet-install.sh --channel LTS
+  pre_build:
+    commands:
+      - dotnet restore Voxed.WebApp/Voxed.WebApp.csproj
+  build:
+    commands:
+      - dotnet build Voxed.WebApp/Voxed.WebApp.csproj
+  post_build:
+    commands:
+      - dotnet publish -c Release -o ./app Voxed.WebApp/Voxed.WebApp.csproj
+artifacts:
+  files:
+    - '**/*'
