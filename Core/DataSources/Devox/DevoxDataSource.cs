@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Core.DataSources.Devox;
 
-public interface IDevoxDataSource
+public interface IDevoxDataSource : IDataSource<Vox>
 {
-    Task GetVox();
+    Task<Vox> Get();
     Task<IEnumerable<Vox>> GetVoxes();
     Task<IEnumerable<Vox>> GetMoreVoxes(int count);
 }
@@ -85,8 +85,9 @@ public class DevoxDataSource : IDevoxDataSource
         }
     }
 
-    public async Task GetVox()
+    public async Task<Vox> Get()
     {
+        return new Vox();
         //https://api.devox.uno/getVox/c6866acd-8514
         //[{ "poll":[false],"_id":"634f9518129544ad402e3bd3","title":"Nunca se habló del cepillismo de Gandhi","description":"Eso.<br>Decía practicar el celibato, pero \"dormía\" en bolas con niñas","category":39,"filename":"c6866acd-8514","fileExtension":"image","isURL":true,"dice":false,"username":"15b3ee24-f0bd-430a-8429-3b763ac48c77","url":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Gandhi_and_Indira_1924.jpg/2560px-Gandhi_and_Indira_1924.jpg","sticky":false,"flag":false,"commentsCount":19,"date":"2022-10-19T06:11:36.980Z","lastUpdate":"2022-11-25T00:26:13.061Z"}]
     }
